@@ -37,7 +37,7 @@ int main(int argc, const char **argv)
 
     std::string document_name;
     std::filesystem::path input_file_name;
-    std::filesystem::path output_base_name;
+    std::filesystem::path output_base_name = "out";
 
     bool show_version = false;
     app.add_flag("--version", show_version, "Show version information");
