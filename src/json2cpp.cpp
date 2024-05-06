@@ -197,6 +197,8 @@ void write_compilation([[maybe_unused]] std::string_view document_name,
 
   const auto append_extension = [](std::filesystem::path name, std::string_view ext) { return name += ext; };
 
+  // Create the directory of the base_output's parent
+  std::filesystem::create_directories(base_output.parent_path());
 
   const auto hpp_name = append_extension(base_output, ".hpp");
   const auto cpp_name = append_extension(base_output, ".cpp");
