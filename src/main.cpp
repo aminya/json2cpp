@@ -23,9 +23,7 @@ SOFTWARE.
 */
 
 #include <filesystem>
-#include <fstream>
-#include <functional>
-#include <iostream>
+#include <string>
 
 #include "json2cpp.hpp"
 #include <CLI/CLI.hpp>

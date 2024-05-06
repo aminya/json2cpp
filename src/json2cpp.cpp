@@ -24,6 +24,8 @@ SOFTWARE.
 
 
 #include "json2cpp.hpp"
+#include <algorithm>
+#include <cctype>
 #include <fstream>
 
 std::string compile(const nlohmann::json &value, std::size_t &obj_count, std::vector<std::string> &lines)
@@ -85,8 +87,35 @@ std::string compile(const nlohmann::json &value, std::size_t &obj_count, std::ve
   return "unhandled";
 }
 
+
+/**
+ * @brief Checks if the given string is a valid C++ identifier. A valid C++ identifier is a string that starts with an
+ * alphabetic character and is followed by zero or more alphanumeric characters.
+ *
+ * @param name The string to check
+ * @return true if the string is a valid C++ identifier, false otherwise
+ */
+bool is_valid_identifier(const std::string_view name)
+{
+  // not empty
+  return !name.empty()
+         // starts with an alphabetic character
+         && std::isalpha(name.front()) != 0
+         // and is followed by zero or more alphanumeric characters
+         && std::all_of(name.begin(), name.end(), [](const auto &chr) { return std::isalnum(chr) != 0; });
+}
+
+void assert_valid_identifier(const std::string_view document_name)
+{
+  if (!is_valid_identifier(document_name)) {
+    throw std::invalid_argument(
+      fmt::format("document_name '{}' must be a non-empty valid C++ identifier", document_name));
+  }
+}
+
 compile_results compile(const std::string_view document_name, const nlohmann::json &json)
 {
+  assert_valid_identifier(document_name);
 
   std::size_t obj_count{ 0 };
 
@@ -162,6 +191,7 @@ void write_compilation([[maybe_unused]] std::string_view document_name,
   const compile_results &results,
   const std::filesystem::path &base_output)
 {
+  assert_valid_identifier(document_name);
 
   const auto append_extension = [](std::filesystem::path name, std::string_view ext) { return name += ext; };
 
