@@ -26,6 +26,7 @@ SOFTWARE.
 #include "json2cpp.hpp"
 #include <algorithm>
 #include <cctype>
+#include <fmt/std.h>
 #include <fstream>
 
 std::string compile(const nlohmann::json &value, std::size_t &obj_count, std::vector<std::string> &lines)
@@ -179,6 +180,7 @@ compile_results compile(const std::string_view document_name, const std::filesys
   spdlog::info("Loading file: '{}'", filename.string());
 
   std::ifstream input(filename);
+  if (!input.is_open()) { throw std::runtime_error(fmt::format("Unable to open the input file name: {}", filename)); }
   nlohmann::json document;
   input >> document;
 
