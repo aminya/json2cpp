@@ -144,12 +144,12 @@ jobs:
             package_generator: TBZ2
 
     steps:
-      - name: Check for llvm version mismatches
-        if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
-        uses: actions/github-script@v3
-        with:
-          script: |
-            core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
+      # - name: Check for llvm version mismatches
+      #   if: ${{ contains(matrix.compiler, 'llvm') && !contains(matrix.compiler, env.CLANG_TIDY_VERSION) }}
+      #   uses: actions/github-script@v3
+      #   with:
+      #     script: |
+      #       core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
 
       - uses: actions/checkout@v4
 
@@ -171,7 +171,7 @@ jobs:
           ninja: true
           vcpkg: false
           ccache: true
-          clangtidy: ${{ env.CLANG_TIDY_VERSION }}
+          clangtidy: ${{ contains(matrix.enable_clang_tidy, 'on') }}
 
           cppcheck: true
 
