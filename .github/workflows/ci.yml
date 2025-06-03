@@ -29,7 +29,7 @@ jobs:
       # and your own projects needs
       matrix:
         os:
-          - ubuntu-20.04
+          - ubuntu-22.04
           - macos-13
           - windows-2019
         compiler:
@@ -146,7 +146,7 @@ jobs:
           script: |
             core.setFailed('There is a mismatch between configured llvm compiler and clang-tidy version chosen')
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Cache
         uses: ./.github/actions/setup_cache
