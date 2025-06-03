@@ -65,12 +65,17 @@ jobs:
           #   enable_ipo: Off
           #   gcov_executable: "llvm-cov gcov"
 
-          - os: macos-15
+          - os: macos-14
             enable_ipo: Off
             enable_cppcheck: OFF
             enable_clang_tidy: OFF
             compiler: appleclang
-
+            generator: "Ninja Multi-Config"
+            build_type: Release
+            package_maintainer_mode: ON
+            build_shared: OFF
+            package_generator: TBZ2
+              
           # - os: ubuntu-20.04
           #   enable_clang_tidy: On
           #   enable_cppcheck: On
